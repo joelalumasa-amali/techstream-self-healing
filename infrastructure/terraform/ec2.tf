@@ -51,14 +51,14 @@ resource "aws_security_group" "web" {
     from_port   = 5000
     to_port     = 5000
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.allowed_cidr]
   }
 
   ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.allowed_cidr]
   }
 
   egress {
@@ -156,12 +156,4 @@ resource "aws_instance" "web" {
   tags = {
     Name = "${var.project_name}-web-server"
   }
-}
-
-output "instance_id" {
-  value = aws_instance.web.id
-}
-
-output "public_ip" {
-  value = aws_instance.web.public_ip
 }
