@@ -1,4 +1,5 @@
 import os
+import threading
 import time
 from flask import Flask, jsonify
 import boto3
@@ -57,4 +58,11 @@ def health():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    # Port 5000 for internal/private access (restricted CIDR in security group)
+    t = threading.Thread(
+        target=lambda: app.run(host='0.0.0.0', port=5000, use_reloader=False),
+        daemon=True,
+    )
+    t.start()
+    # Port 80 for public HTTP access
+    app.run(host='0.0.0.0', port=80, use_reloader=False)

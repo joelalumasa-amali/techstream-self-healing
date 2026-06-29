@@ -13,5 +13,6 @@ RUN addgroup --system appgroup && \
 USER appuser
 
 EXPOSE 5000
+EXPOSE 80
 
 CMD ["python", "app.py"]
