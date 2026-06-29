@@ -1,6 +1,9 @@
 #!/bin/bash
 
-INSTANCE_IP="13.221.85.250"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+TERRAFORM_DIR="$SCRIPT_DIR/../infrastructure/terraform"
+
+INSTANCE_IP=$(cd "$TERRAFORM_DIR" && terraform output -raw public_ip)
 PORT="5000"
 ERROR_COUNT=20
 
@@ -8,7 +11,7 @@ echo "Starting chaos injection..."
 echo "Sending $ERROR_COUNT error requests to http://$INSTANCE_IP:$PORT/error"
 
 for i in $(seq 1 $ERROR_COUNT); do
-  curl -s http://$INSTANCE_IP:$PORT/error > /dev/null
+  curl -s "http://$INSTANCE_IP:$PORT/error" > /dev/null
   echo "Error request $i sent"
   sleep 1
 done
