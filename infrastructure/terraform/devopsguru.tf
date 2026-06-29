@@ -5,7 +5,7 @@ resource "aws_devopsguru_service_integration" "main" {
 
   kms_server_side_encryption {
     opt_in_status = "DISABLED"
-    type          = "NONE"
+    type          = "AWS_OWNED_KMS_KEY"
   }
 
   logs_anomaly_detection {
